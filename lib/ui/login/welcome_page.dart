@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hoo/style/theme/strings.dart';
 import 'package:flutter_hoo/ui/login/login_page.dart';
+import 'package:flutter_hoo/ui/login/register_page.dart';
 import 'package:flutter_hoo/widget/my_button.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -49,7 +50,7 @@ class WelcomePage extends StatelessWidget {
                 true,
                 Strings.welcome_button_register,
                 () => Navigator.push(
-                    context, MaterialPageRoute(builder: (ctx) => LoginPage()))),
+                    context, MaterialPageRoute(builder: (ctx) => RegisterPage()))),
           ),
           Spacer(flex: 1),
         ],

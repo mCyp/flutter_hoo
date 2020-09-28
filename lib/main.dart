@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hoo/common/utils/sp_util.dart';
+import 'package:flutter_hoo/db/database.dart';
 import 'package:flutter_hoo/provider/theme_provider.dart';
 import 'package:flutter_hoo/style/theme/theme.dart';
 import 'package:flutter_hoo/ui/splash/splash.dart';
@@ -12,6 +13,7 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SpUtil.getInstance();
+  await DBProvider.getInstance();
   await SystemChrome.setPreferredOrientations(<DeviceOrientation>[DeviceOrientation.portraitUp,DeviceOrientation.portraitDown]).then((_){
     runApp(
       MultiProvider(
