@@ -20,6 +20,7 @@ class ThemeCenter {
             isDark ? CustomColors.dark_bg_color : CustomColors.bg_color,
         canvasColor:
             isDark ? CustomColors.dark_bg_color : CustomColors.bg_color,
+        unselectedWidgetColor: isDark ? CustomColors.dark_unselected_item_color : CustomColors.unselected_item_color,
         textSelectionColor: CustomColors.primary_color.withAlpha(70),
         textSelectionHandleColor: CustomColors.primary_color,
         textTheme: TextTheme(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hoo/db/database.dart';
 import 'package:flutter_hoo/db/use.dart';
 import 'package:flutter_hoo/style/theme/strings.dart';
+import 'package:flutter_hoo/ui/main/main_page.dart';
 import 'package:flutter_hoo/widget/my_button.dart';
 import 'package:flutter_hoo/widget/my_textfield.dart';
 import 'package:oktoast/oktoast.dart';
@@ -105,9 +106,10 @@ class LoginPageState extends State<LoginPage> {
                     () async {
                       DBProvider provider = DBProvider.getInstance();
                       User user =
-                          await provider.searchUserByNameAndPwd(account, pwd);
+                          await provider.queryUserByNameAndPwd(account, pwd);
                       if (user != null) {
                         print(user.id);
+                        Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => MainPage()));
                       } else {
                         showToast("用户名或者密码错误！！！！",textPadding: EdgeInsets.all(10));
                       }

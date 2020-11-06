@@ -17,5 +17,14 @@ class Strings{
   static String email_address = "email address";
   static String button_sign_up = "SIGN UP";
 
+  // MainPage
+  static String main_bottom_home = "主页";
+  static String main_bottom_fav = "喜欢";
+  static String main_bottom_me = "我";
+
+  // Common
+  static String state_loading = "加载中...";
+  static String state_empty = "哥，这回真没了";
+
 
 }

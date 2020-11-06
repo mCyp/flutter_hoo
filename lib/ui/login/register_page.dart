@@ -137,6 +137,7 @@ class RegisterPageState extends State<RegisterPage> {
                           User user = User(email, pwd, account, null);
                           DBProvider provider =
                           await DBProvider.getInstanceAndInit();
+                          // await provider.doTransaction();
                           await provider.insertUser(user);
                           showToast("注册成功！",textPadding: EdgeInsets.all(10));
                         },

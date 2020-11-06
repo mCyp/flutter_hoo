@@ -24,4 +24,9 @@ class User {
       'headImage': headImage,
     };
   }
+
+  @override
+  String toString() {
+    return "{$id,$account,$pwd,$name,$headImage}";
+  }
 }

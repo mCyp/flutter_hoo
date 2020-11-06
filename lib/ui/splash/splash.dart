@@ -28,6 +28,7 @@ class _SplashPageState extends State<SplashPage>
             parent: controller, curve: Interval(0.4, 1, curve: Curves.easeIn)));
     controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
+        print(controller.value);
         Navigator.push(
             context, MaterialPageRoute(builder: (ctx) => WelcomePage()));
       }
