@@ -65,22 +65,7 @@ class _RefreshListViewState extends State<RefreshListView> {
                       : MoreWidget(
                           widget.itemCount, widget.pageSize, widget.hasMore);
                 }
-              }
-         /* gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 200,
-              childAspectRatio: 1,
-              mainAxisSpacing: 8,
-              crossAxisSpacing: 8),
-          itemBuilder: (BuildContext context, int index) {
-            if (widget.onLoadMore == null)
-              return widget.itemBuilder(context, index);
-            else {
-              return index < widget.itemCount
-                  ? widget.itemBuilder(context, index)
-                  : MoreWidget(
-                  widget.itemCount, widget.pageSize, widget.hasMore);
-            }
-          }*/),
+              }),
     );
     return SafeArea(
       child: NotificationListener(

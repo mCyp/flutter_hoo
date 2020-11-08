@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hoo/db/database.dart';
 import 'package:flutter_hoo/db/use.dart';
 import 'package:flutter_hoo/style/theme/strings.dart';
+import 'package:flutter_hoo/ui/main/main_page.dart';
 import 'package:flutter_hoo/widget/my_button.dart';
 import 'package:flutter_hoo/widget/my_textfield.dart';
 import 'package:oktoast/oktoast.dart';
@@ -87,7 +88,7 @@ class RegisterPageState extends State<RegisterPage> {
                     child: HooTextField(
                       Icons.email,
                       Strings.email_address,
-                          (txt) {
+                      (txt) {
                         this.email = txt;
                         _onTextChange();
                       },
@@ -100,7 +101,7 @@ class RegisterPageState extends State<RegisterPage> {
                     child: HooTextField(
                       Icons.face,
                       Strings.login_account_hint,
-                          (txt) {
+                      (txt) {
                         this.account = txt;
                         _onTextChange();
                       },
@@ -111,7 +112,7 @@ class RegisterPageState extends State<RegisterPage> {
                     child: HooTextField(
                       Icons.lock_open,
                       Strings.login_pwd_hint,
-                          (txt) {
+                      (txt) {
                         this.pwd = txt;
                         _onTextChange();
                       },
@@ -124,11 +125,11 @@ class RegisterPageState extends State<RegisterPage> {
                       child: HooButton(
                         isButtonEnable,
                         Strings.button_sign_up,
-                            () async {
+                        () async {
                           Pattern pattern =
                               r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
                           RegExp exp = RegExp(pattern);
-                          if(!exp.hasMatch(email)){
+                          if (!exp.hasMatch(email)) {
                             setState(() {
                               isEmailError = true;
                             });
@@ -136,10 +137,12 @@ class RegisterPageState extends State<RegisterPage> {
                           }
                           User user = User(email, pwd, account, null);
                           DBProvider provider =
-                          await DBProvider.getInstanceAndInit();
-                          // await provider.doTransaction();
+                              await DBProvider.getInstanceAndInit();
                           await provider.insertUser(user);
-                          showToast("注册成功！",textPadding: EdgeInsets.all(10));
+                          showToast("注册成功！", textPadding: EdgeInsets.all(10));
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(builder: (ctx) => MainPage()),
+                              (Route<dynamic> route) => false);
                         },
                       )),
                 ],

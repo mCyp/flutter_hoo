@@ -29,7 +29,7 @@ class _SplashPageState extends State<SplashPage>
     controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         print(controller.value);
-        Navigator.push(
+        Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (ctx) => WelcomePage()));
       }
     });

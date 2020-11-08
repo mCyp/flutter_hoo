@@ -109,7 +109,7 @@ class LoginPageState extends State<LoginPage> {
                           await provider.queryUserByNameAndPwd(account, pwd);
                       if (user != null) {
                         print(user.id);
-                        Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => MainPage()));
+                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (ctx) => MainPage()), (Route<dynamic> route) => false);
                       } else {
                         showToast("用户名或者密码错误！！！！",textPadding: EdgeInsets.all(10));
                       }
