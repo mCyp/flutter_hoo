@@ -20,9 +20,7 @@ class ThemeCenter {
             isDark ? CustomColors.dark_bg_color : CustomColors.bg_color,
         canvasColor:
             isDark ? CustomColors.dark_bg_color : CustomColors.bg_color,
-        unselectedWidgetColor: isDark ? CustomColors.dark_unselected_item_color : CustomColors.unselected_item_color,
-        textSelectionColor: CustomColors.primary_color.withAlpha(70),
-        textSelectionHandleColor: CustomColors.primary_color,
+        dividerColor: CustomColors.outline_color,
         textTheme: TextTheme(
             headline1:
                 isDark ? TextStyles.dark_headLine1 : TextStyles.headLine1,
@@ -48,10 +46,19 @@ class ThemeCenter {
             button: isDark ? TextStyles.dark_button : TextStyles.button),
         inputDecorationTheme: InputDecorationTheme(
             hintStyle: isDark ? TextStyles.dark_hint : TextStyles.hint),
-    appBarTheme: AppBarTheme(
-      elevation: 0.0,
-      color: isDark ? CustomColors.dark_bg_color : CustomColors.bg_color,
-    ));
+        elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ButtonStyle(
+          foregroundColor:
+              MaterialStateProperty.resolveWith((states) => Colors.white),
+          /*backgroundColor: MaterialStateProperty.resolveWith(
+            (states) => isDark
+                ? CustomColors.dark_primary_color
+                : CustomColors.primary_color,
+          ),*/
+        )),
+        appBarTheme: AppBarTheme(
+          elevation: 0.0,
+          color: isDark ? CustomColors.dark_bg_color : CustomColors.bg_color,
+        ));
   }
 }
-

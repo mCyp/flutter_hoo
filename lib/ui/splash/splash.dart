@@ -20,7 +20,7 @@ class _SplashPageState extends State<SplashPage>
     super.initState();
 
     controller =
-        new AnimationController(vsync: this, duration: Duration(seconds: 2));
+        new AnimationController(value: 0, duration: Duration(seconds: 2), vsync: this);
     scalaAnimation = new Tween<double>(begin: 100, end: 40)
         .animate(CurvedAnimation(parent: controller, curve: Interval(0, 0.4)));
     progressAnimation = new Tween<double>(begin: 0, end: 1).animate(

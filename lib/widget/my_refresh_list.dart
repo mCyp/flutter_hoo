@@ -5,16 +5,15 @@ import 'package:flutter_hoo/style/theme/strings.dart';
 import 'package:flutter_hoo/widget/state_layout.dart';
 
 class RefreshListView extends StatefulWidget {
-  RefreshListView(
-      {@required this.onRefresh,
-      @required this.itemBuilder,
-      @required this.itemCount,
-      this.onLoadMore,
-      this.hasMore,
-      this.stateType,
-      this.pageSize,
-      this.padding,
-      this.itemExtent});
+  RefreshListView({@required this.onRefresh,
+    @required this.itemBuilder,
+    @required this.itemCount,
+    this.onLoadMore,
+    this.hasMore,
+    this.stateType,
+    this.pageSize,
+    this.padding,
+    this.itemExtent});
 
   final RefreshCallback onRefresh;
   final LoadMoreCallback onLoadMore;
@@ -35,21 +34,47 @@ typedef LoadMoreCallback = Future<void> Function();
 
 class _RefreshListViewState extends State<RefreshListView> {
   bool _loading = false;
+  ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scrollController = new ScrollController();
+    _scrollController.addListener(() {
+      if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
+        _loadMore();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    bool isShow = widget.onLoadMore != null && _loading;
     Widget child = RefreshIndicator(
       onRefresh: widget.onRefresh,
-      child: widget.itemCount == 0
+      child: GridView.builder(
+          itemCount: widget.itemCount,
+          padding: widget.padding,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 1,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8),
+          itemBuilder: (BuildContext context, int index) {
+            return widget.itemBuilder(context, index);
+          }),
+      /*child: widget.itemCount == 0
           ? StateLayout(
-              type: widget.stateType,
-              url: "assets/images/empty_bg.jpg",
-              hintText: "暂时没有鞋子哦",
-            )
-          : GridView.builder(
-              itemCount: widget.onLoadMore == null
-                  ? widget.itemCount
-                  : widget.itemCount + 1,
+        type: widget.stateType,
+        url: "assets/images/empty_bg.jpg",
+        hintText: "暂时没有鞋子哦",
+      ) : Stack(
+        alignment: Alignment.center,
+        fit: StackFit.expand,
+        children: [
+          GridView.builder(
+              itemCount: widget.itemCount,
               padding: widget.padding,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
@@ -57,15 +82,16 @@ class _RefreshListViewState extends State<RefreshListView> {
                   mainAxisSpacing: 8,
                   crossAxisSpacing: 8),
               itemBuilder: (BuildContext context, int index) {
-                if (widget.onLoadMore == null)
-                  return widget.itemBuilder(context, index);
-                else {
-                  return index < widget.itemCount
-                      ? widget.itemBuilder(context, index)
-                      : MoreWidget(
-                          widget.itemCount, widget.pageSize, widget.hasMore);
-                }
+                return widget.itemBuilder(context, index);
               }),
+          Positioned(
+            child: Container(
+              child: isShow ? MoreWidget(widget.hasMore) : Text("hah"),
+            ),
+            bottom: 12,
+          )
+        ],
+      )*/
     );
     return SafeArea(
       child: NotificationListener(
@@ -86,18 +112,20 @@ class _RefreshListViewState extends State<RefreshListView> {
     if (_loading) return;
     if (!widget.hasMore) return;
 
-    _loading = true;
+    setState(() {
+      _loading = true;
+    });
     await widget.onLoadMore();
-    _loading = false;
+    setState(() {
+      _loading = false;
+    });
   }
 }
 
 class MoreWidget extends StatelessWidget {
-  final int itemCount;
-  final int pageSize;
   final bool hasMore;
 
-  MoreWidget(this.itemCount, this.pageSize, this.hasMore);
+  MoreWidget(this.hasMore);
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +139,10 @@ class MoreWidget extends StatelessWidget {
           if (hasMore) Gaps.hGap4,
           Text(
             hasMore ? Strings.state_loading : Strings.state_empty,
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme
+                .of(context)
+                .textTheme
+                .subtitle1,
           )
         ],
       ),

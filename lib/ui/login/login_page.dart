@@ -32,6 +32,7 @@ class LoginPageState extends State<LoginPage> {
     if (currentState != isButtonEnable) {
       setState(() {
         isButtonEnable = currentState;
+        print("isEnable: "+ isButtonEnable.toString());
       });
     }
   }
@@ -45,7 +46,7 @@ class LoginPageState extends State<LoginPage> {
     return OKToast(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Cancel", style: Theme.of(context).textTheme.subtitle2),
+          title: Text("Login", style: Theme.of(context).textTheme.subtitle2),
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Theme.of(context).primaryColor),
             onPressed: () {
@@ -104,6 +105,7 @@ class LoginPageState extends State<LoginPage> {
                     isButtonEnable,
                     Strings.sign_in_login,
                     () async {
+                      showToast("查询！！！！",textPadding: EdgeInsets.all(10));
                       DBProvider provider = DBProvider.getInstance();
                       User user =
                           await provider.queryUserByNameAndPwd(account, pwd);

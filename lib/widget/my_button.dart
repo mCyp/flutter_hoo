@@ -14,12 +14,9 @@ class HooButton  extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: 56,
-      child: RaisedButton(
-        color: isButtonEnable
-            ? Theme.of(context).primaryColor
-            : Theme.of(context).disabledColor,
-        textColor: Colors.white,
-        onPressed: callback,
+      child: ElevatedButton(
+        onPressed: isButtonEnable ? callback : null,
+        onLongPress: null,
         child: Text(
           text,
           style: TextStyle(fontSize: 18),

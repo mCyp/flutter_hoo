@@ -12,16 +12,16 @@ class FavShoe {
   FavShoe(this.userId, this.shoeId, this.date, {this.id, this.user, this.shoe});
 
   factory FavShoe.fromJson(Map<String, dynamic> map) {
-    return FavShoe(map['userId'], map['shoeId'], map['date'], id: map['id']);
+    return FavShoe(map['user_id'], map['shoe_id'], map['date'], id: map['id']);
   }
 
   factory FavShoe.fromJsonAndShoe(Map<String, dynamic> map) {
     Shoe shoe =
-        Shoe(map['name'], null, map['price'], null, null, id: map['shoeId']);
-    return FavShoe(map['userId'], map['shoeId'], map['date'], id: map['id'], shoe: shoe);
+        Shoe(map['name'], null, map['price'], null, null, id: map['shoe_id']);
+    return FavShoe(map['user_id'], map['shoe_id'], map['date'], id: map['id'], shoe: shoe);
   }
 
   Map<String, dynamic> toMap() {
-    return {'id': id, 'userId': userId, 'shoeId': shoeId, 'date': date};
+    return {'id': id, 'user_id': userId, 'shoe_id': shoeId, 'date': date};
   }
 }

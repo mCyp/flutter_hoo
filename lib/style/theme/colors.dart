@@ -7,6 +7,8 @@ class CustomColors{
   static const Color bg_color = Colors.white;
   static const Color dark_bg_color = Color(0xFF191919);
 
+  static const Color outline_color = Color(0xFFeeeeee);
+
   static const Color text = Color(0xFF333333);
   static const Color dark_text = Color(0xFFB8B8B8);
 

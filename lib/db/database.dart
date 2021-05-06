@@ -166,7 +166,7 @@ class DBProvider {
         whereArgs: [startPos, endPos, brand],
         orderBy: 'id ASC');
     if (result.isEmpty) return List<Shoe>();
-    return List.generate(result.length, (i) => Shoe.fromJson(result[i]));
+    return Future.delayed(Duration(seconds: 3), ()=>(List.generate(result.length, (i) => Shoe.fromJson(result[i]))));
   }
 
   // #### FavShoe表
@@ -176,6 +176,12 @@ class DBProvider {
     var _db = await db;
     await _db.insert("fav_shoe", favShoe.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  // 删除收藏记录
+  Future<void> deleteFavShoe(FavShoe favShoe) async {
+    var _db = await db;
+    await _db.delete("fav_shoe", where: "id = ?",whereArgs: [favShoe.id]);
   }
 
   // 查询某人的收藏记录

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hoo/db/shoe.dart';
+import 'package:flutter_hoo/ui/detail/shoe_detail_page.dart';
 import 'package:flutter_hoo/widget/load_image.dart';
 
 class ShoeItem extends StatelessWidget {
-
   ShoeItem(this._shoe);
 
   Shoe _shoe;
@@ -15,12 +15,20 @@ class ShoeItem extends StatelessWidget {
       child: Material(
         child: Ink(
           child: InkWell(
-              onTap: (){
-                // TODO 跳转到具体页面
-              },
-              child: LoadImage(
-                  _shoe.imageUrl
-              )
+            onTap: () {
+              print("shoeId: " + _shoe.id.toString());
+              Navigator.of(context)
+                  .push(PageRouteBuilder(pageBuilder: (ctx, start, end) {
+                return new FadeTransition(
+                  opacity: start,
+                  child: ShoeDetailPage(_shoe),
+                );
+              }));
+            },
+            child: Hero(
+              tag: _shoe.imageUrl,
+              child: LoadImage(_shoe.imageUrl),
+            ),
           ),
         ),
       ),

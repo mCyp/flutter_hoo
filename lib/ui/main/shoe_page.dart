@@ -2,71 +2,59 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hoo/db/database.dart';
 import 'package:flutter_hoo/db/shoe.dart';
+import 'package:flutter_hoo/repository/shoe_repository.dart';
 import 'package:flutter_hoo/ui/main/shoe/shoe_item.dart';
+import 'package:flutter_hoo/widget/loading_builder.dart';
 import 'package:flutter_hoo/widget/my_refresh_list.dart';
 import 'package:flutter_hoo/widget/state_layout.dart';
+import 'package:loading_more_list/loading_more_list.dart';
 
 class ShoePage extends StatefulWidget {
   @override
   _ShoePageState createState() => _ShoePageState();
 }
 
-class _ShoePageState extends State<ShoePage> {
-  // 使用分页通过Id id是自增长的
-  // 根据Id显示
-
-  List<Shoe> _shoes = new List<Shoe>();
-  int _page = 1;
-  int _lastLoadSize = 20;
+class _ShoePageState extends State<ShoePage> with TickerProviderStateMixin{
+  ShoeRepository shoeRepository;
   StateType type = StateType.loading;
+  AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-
-    _onRefresh();
+    shoeRepository = ShoeRepository();
+    _controller = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 700));
   }
 
   @override
-  Widget build(BuildContext context){
-    return new Container(
-      child: RefreshListView(
-        onRefresh: _onRefresh,
-        onLoadMore: _onLoadMore,
-        hasMore: _lastLoadSize > 0,
-        itemCount: _shoes.length,
-        stateType: type,
-        itemBuilder: (_,pos){
-          Shoe shoe = _shoes[pos];
-          return ShoeItem(shoe);
-        },
+  void dispose() {
+    shoeRepository.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.grey[200],
+      child: RefreshIndicator(
+        child: LoadingMoreList<Shoe>(ListConfig<Shoe>(
+            itemBuilder: (context, item, pos) => ShoeItem(item),
+            sourceList: shoeRepository,
+            lastChildLayoutType: LastChildLayoutType.foot,
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 300.0,
+              crossAxisSpacing: 3.0,
+              mainAxisSpacing: 3.0,
+
+            ),
+            indicatorBuilder: loadingBuilder)),
+        onRefresh: _refresh,
       ),
     );
   }
 
-  Future _onRefresh() async {
-    _page = 1;
-    DBProvider provider = DBProvider.getInstance();
-    int startPos = (_page - 1) * 20;
-    int endPos = startPos + 20;
-    List<Shoe> shoes = await provider.queryShoeByPos(startPos,endPos);
-    setState(() {
-      _lastLoadSize = shoes.length;
-      _shoes.addAll(shoes);
-    });
+  Future<void> _refresh() async {
+    await shoeRepository.refresh();
   }
-
-  Future _onLoadMore() async {
-    _page++;
-    DBProvider provider = DBProvider.getInstance();
-    int startPos = (_page - 1) * 20;
-    int endPos = startPos + 20;
-    List<Shoe> shoes = await provider.queryShoeByPos(startPos,endPos);
-    setState(() {
-      _lastLoadSize = shoes.length;
-      _shoes.addAll(shoes);
-    });
-  }
-
-
 }

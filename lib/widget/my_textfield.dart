@@ -12,38 +12,45 @@ class HooTextField extends StatelessWidget {
   String errorText;
   bool isError = false;
   bool isPassWord;
+  double _borderWidth = 1;
 
   @override
   Widget build(BuildContext context) {
     print("$isError");
-    return TextField(
-      decoration: InputDecoration(
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-          borderSide:
-              BorderSide(width: 1, color: Theme.of(context).dividerColor),
+    return SizedBox(
+      height: 75,
+      width: double.infinity,
+      child: TextField(
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(4)),
+            borderSide:
+            BorderSide(width: _borderWidth, color: Theme.of(context).dividerColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(4)),
+            borderSide:
+            BorderSide(width: _borderWidth, color: Theme.of(context).primaryColor),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(4)),
+            borderSide: BorderSide(width: _borderWidth, color: Theme.of(context).errorColor),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(4)),
+            borderSide: BorderSide(width: _borderWidth, color: Theme.of(context).errorColor),
+          ),
+          errorText: isError ? errorText : null,
+          prefixIcon: Icon(icon),
+          hintText: hintText,
+          hintStyle: Theme.of(context).textTheme.bodyText2,
+          contentPadding: EdgeInsets.symmetric(vertical: 25, horizontal: 20),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-          borderSide:
-              BorderSide(width: 1, color: Theme.of(context).primaryColor),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-          borderSide: BorderSide(width: 1, color: Theme.of(context).errorColor),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-          borderSide: BorderSide(width: 1, color: Theme.of(context).errorColor),
-        ),
-        errorText: isError ? errorText : null,
-        prefixIcon: Icon(icon),
-        hintText: hintText,
-        hintStyle: Theme.of(context).textTheme.bodyText2,
+        onChanged: changedCallback,
+        style: Theme.of(context).textTheme.bodyText1,
+        obscureText: isPassWord,
+
       ),
-      onChanged: changedCallback,
-      style: Theme.of(context).textTheme.bodyText1,
-      obscureText: isPassWord,
     );
   }
 }
