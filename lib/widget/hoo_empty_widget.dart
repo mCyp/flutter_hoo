@@ -11,6 +11,7 @@ class HooEmptyWidget extends StatelessWidget {
     return Container(
       height: double.infinity,
       width: double.infinity,
+      color: Colors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

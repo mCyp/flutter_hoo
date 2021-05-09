@@ -50,11 +50,6 @@ class ThemeCenter {
             style: ButtonStyle(
           foregroundColor:
               MaterialStateProperty.resolveWith((states) => Colors.white),
-          /*backgroundColor: MaterialStateProperty.resolveWith(
-            (states) => isDark
-                ? CustomColors.dark_primary_color
-                : CustomColors.primary_color,
-          ),*/
         )),
         appBarTheme: AppBarTheme(
           elevation: 0.0,

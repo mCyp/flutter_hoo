@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hoo/db/database.dart';
 import 'package:flutter_hoo/db/shoe.dart';
 import 'package:flutter_hoo/repository/shoe_repository.dart';
 import 'package:flutter_hoo/ui/main/shoe/shoe_item.dart';
 import 'package:flutter_hoo/widget/loading_builder.dart';
-import 'package:flutter_hoo/widget/my_refresh_list.dart';
 import 'package:flutter_hoo/widget/state_layout.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
@@ -17,14 +15,11 @@ class ShoePage extends StatefulWidget {
 class _ShoePageState extends State<ShoePage> with TickerProviderStateMixin{
   ShoeRepository shoeRepository;
   StateType type = StateType.loading;
-  AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
     shoeRepository = ShoeRepository();
-    _controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 700));
   }
 
   @override
@@ -46,7 +41,6 @@ class _ShoePageState extends State<ShoePage> with TickerProviderStateMixin{
               maxCrossAxisExtent: 300.0,
               crossAxisSpacing: 3.0,
               mainAxisSpacing: 3.0,
-
             ),
             indicatorBuilder: loadingBuilder)),
         onRefresh: _refresh,

@@ -7,7 +7,7 @@ import 'package:flutter_hoo/widget/load_image.dart';
 class ShoeItem extends StatelessWidget {
   ShoeItem(this._shoe);
 
-  Shoe _shoe;
+  final Shoe _shoe;
 
   @override
   Widget build(BuildContext context) {

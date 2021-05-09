@@ -201,13 +201,13 @@ class DBProvider {
   }
 
   // 查询某人的收藏记录
-  Future<List<FavShoe>> queryFavShoesByUserID(int userId) async {
+  Future<List<FavShoe>> queryFavShoesByUserID(int userId, int start, int end) async {
     var _db = await db;
-    List<Map<String, dynamic>> result = await _db.rawQuery("SELECT fav_shoe.id, shoe_id, user_id, name, price "
-        "FROM fav_shoe LEFT OUTER JOIN ON fav_shoe.shoe_id = shoe.id "
-        "WHERE user_id = ?;",[userId]);
-    if (result.isEmpty) return List<FavShoe>();
-    return List.generate(result.length, (i) => FavShoe.fromJson(result[i]));
+    List<Map<String, dynamic>> result = await _db.rawQuery("SELECT fav_shoe.id, shoe_id, user_id, shoe.name, shoe.price, shoe.imageUrl, shoe.description, shoe.brand "
+        "FROM fav_shoe LEFT OUTER JOIN shoe ON fav_shoe.shoe_id = shoe.id "
+        "WHERE user_id = ? and fav_shoe.id > ? and fav_shoe.id <= ?;",[userId, start, end]);
+    if (result.isEmpty) return List.empty();
+    return List.generate(result.length, (i) => FavShoe.fromJsonAndShoe(result[i]));
   }
 
   Future<void> doTransaction() async {

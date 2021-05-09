@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hoo/style/theme/strings.dart';
+import 'package:flutter_hoo/ui/main/fav_shoe_page.dart';
 import 'package:flutter_hoo/ui/main/page_item.dart';
 import 'package:flutter_hoo/ui/main/shoe_page.dart';
 
@@ -51,15 +52,15 @@ class _MainPageState extends State<MainPage> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text(Strings.main_bottom_home),
+            label: Strings.main_bottom_home,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
-            title: Text(Strings.main_bottom_fav),
+            label: Strings.main_bottom_fav,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            title: Text(Strings.main_bottom_me),
+            label: Strings.main_bottom_me,
           ),
         ],
         selectedItemColor: Theme.of(context).primaryColor,
@@ -73,7 +74,7 @@ class _MainPageState extends State<MainPage> {
         child: PageView(
           children: [
             ShoePage(),
-            PageItem(Strings.main_bottom_fav,Colors.red),
+            FavShoePage(),
             PageItem(Strings.main_bottom_me,Colors.green)
           ],
           controller: _controller,

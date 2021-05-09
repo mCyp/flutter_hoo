@@ -1,11 +1,13 @@
+import 'package:flutter_hoo/common/constant/baseConstant.dart';
+import 'package:flutter_hoo/common/utils/sp_util.dart';
 import 'package:flutter_hoo/db/database.dart';
-import 'package:flutter_hoo/db/shoe.dart';
+import 'package:flutter_hoo/db/fav_shoe.dart';
 import 'package:loading_more_list_library/loading_more_list_library.dart';
 
-class ShoeRepository extends LoadingMoreBase<Shoe>{
-
+class FavShoeRepository extends LoadingMoreBase<FavShoe> {
   int _pageIndex = 1;
   bool _hasMore = true;
+  int _userId = 0;
 
   @override
   bool get hasMore => _hasMore;
@@ -18,13 +20,15 @@ class ShoeRepository extends LoadingMoreBase<Shoe>{
 
   @override
   Future<bool> loadData([bool isLoadMoreAction = false]) async {
+    _userId = SpUtil.getInt(BaseConstant.user_id);
     DBProvider provider = DBProvider.getInstance();
     int startPos = (_pageIndex - 1) * 20;
     int endPos = startPos + 20;
-    print("startPos:  " + startPos.toString() + "endPos: " + endPos.toString());
-     List<Shoe> shoes = await provider.queryShoeByPos(startPos,endPos);
-    print("Get shoes " + shoes.length.toString());
-    if(_pageIndex == 1){
+    List<FavShoe> shoes = await provider.queryFavShoesByUserID(_userId, startPos, endPos);
+    shoes.forEach((element) {
+      print(element.toString());
+    });
+    if (_pageIndex == 1) {
       clear();
     }
     _hasMore = shoes.length != 0;

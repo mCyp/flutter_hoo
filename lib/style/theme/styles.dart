@@ -118,7 +118,7 @@ class TextStyles {
       fontSize: 14.0,
       fontWeight: FontWeight.w400,
       textBaseline: TextBaseline.alphabetic,
-      color: CustomColors.text_gray);
+      color: CustomColors.text_gray_300);
 
   static const TextStyle dark_bodyText2 = TextStyle(
       debugLabel: 'englishLike body1 2014',
@@ -126,7 +126,7 @@ class TextStyles {
       fontSize: 14.0,
       fontWeight: FontWeight.w400,
       textBaseline: TextBaseline.alphabetic,
-      color: CustomColors.dark_text_gray);
+      color: CustomColors.dark_text_gray_300);
 
   static const TextStyle subtitle1 = TextStyle(
       debugLabel: 'englishLike subhead 2014',
@@ -134,7 +134,7 @@ class TextStyles {
       fontSize: 16.0,
       fontWeight: FontWeight.w400,
       textBaseline: TextBaseline.alphabetic,
-      color: CustomColors.text_gray);
+      color: CustomColors.text_gray_300);
 
   static const TextStyle dark_subtitle1 = TextStyle(
       debugLabel: 'englishLike subhead 2014',
@@ -142,7 +142,7 @@ class TextStyles {
       fontSize: 16.0,
       fontWeight: FontWeight.w400,
       textBaseline: TextBaseline.alphabetic,
-      color: CustomColors.text_gray);
+      color: CustomColors.text_gray_300);
 
   static const TextStyle subtitle2 = TextStyle(
       debugLabel: 'englishLike subtitle 2014',
