@@ -25,9 +25,6 @@ class FavShoeRepository extends LoadingMoreBase<FavShoe> {
     int startPos = (_pageIndex - 1) * 20;
     int endPos = startPos + 20;
     List<FavShoe> shoes = await provider.queryFavShoesByUserID(_userId, startPos, endPos);
-    shoes.forEach((element) {
-      print(element.toString());
-    });
     if (_pageIndex == 1) {
       clear();
     }

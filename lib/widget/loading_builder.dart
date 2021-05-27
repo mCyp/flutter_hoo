@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hoo/common/utils/theme_utils.dart';
 import 'package:flutter_hoo/widget/hoo_empty_widget.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 import 'package:lottie/lottie.dart';
+import 'package:path/path.dart';
 
 Widget loadingBuilder(BuildContext context, IndicatorStatus status) {
   return HooLoadingIndicator(status);
@@ -48,7 +50,7 @@ class HooLoadingIndicator extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyText1)
           ],
         );
-        widget = _setBackground(widget, 76.0, bgColor: Colors.grey[200]);
+        widget = _setBackground(context, widget, 76.0);
         break;
       case IndicatorStatus.fullScreenBusying:
         widget = Lottie.asset(
@@ -56,7 +58,7 @@ class HooLoadingIndicator extends StatelessWidget {
           width: 300,
           height: 300,
         );
-        widget = _setBackground(widget, double.infinity, bgColor: Colors.white);
+        widget = _setBackground(context, widget, double.infinity);
         if (isSliver) {
           widget = SliverFillRemaining(
             child: widget,
@@ -73,7 +75,7 @@ class HooLoadingIndicator extends StatelessWidget {
         break;
       case IndicatorStatus.error:
         widget = Text(text != null ? text : "当前发生错误了～");
-        widget = _setBackground(widget, 35.0);
+        widget = _setBackground(context, widget, 35.0);
         if (tryAgain != null) {
           widget = GestureDetector(
             onTap: () => tryAgain(),
@@ -85,7 +87,7 @@ class HooLoadingIndicator extends StatelessWidget {
         widget = Text(
           text != null ? text : 'load failed,try again.',
         );
-        widget = _setBackground(widget, double.infinity);
+        widget = _setBackground(context, widget, double.infinity);
         if (tryAgain != null) {
           widget = GestureDetector(
             onTap: () {
@@ -110,7 +112,7 @@ class HooLoadingIndicator extends StatelessWidget {
         break;
       case IndicatorStatus.noMoreLoad:
         widget = Text(text != null ? text : "哥，这回真的没有了～");
-        widget = _setBackground(widget, 35.0);
+        widget = _setBackground(context, widget, 35.0);
         break;
       case IndicatorStatus.empty:
         widget = emptyWidget;
@@ -122,7 +124,7 @@ class HooLoadingIndicator extends StatelessWidget {
     return widget;
   }
 
-  Widget _setBackground(Widget widget, double height, {Color bgColor}) {
+  Widget _setBackground(BuildContext context, Widget widget, double height, {Color bgColor}) {
     widget = Container(
       width: double.infinity,
       height: height,
@@ -131,7 +133,7 @@ class HooLoadingIndicator extends StatelessWidget {
           ? bgColor
           : backgroundColor != null
               ? backgroundColor
-              : Colors.grey[200],
+              : ThemeUtils.getBgColor(context),
       alignment: Alignment.center,
     );
     return widget;

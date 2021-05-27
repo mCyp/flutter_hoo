@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hoo/common/utils/theme_utils.dart';
 import 'package:flutter_hoo/db/shoe.dart';
 import 'package:flutter_hoo/repository/shoe_repository.dart';
 import 'package:flutter_hoo/ui/main/shoe/shoe_item.dart';
@@ -31,7 +32,7 @@ class _ShoePageState extends State<ShoePage> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey[200],
+      color: ThemeUtils.getBgGrayColor(context),
       child: RefreshIndicator(
         child: LoadingMoreList<Shoe>(ListConfig<Shoe>(
             itemBuilder: (context, item, pos) => ShoeItem(item),

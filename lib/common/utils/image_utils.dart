@@ -26,7 +26,8 @@ enum ImageFormat {
   png,
   jpg,
   gif,
-  webp
+  webp,
+  jpeg
 }
 
 extension ImageFormatExtension on ImageFormat {

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hoo/common/utils/theme_utils.dart';
 import 'package:flutter_hoo/ui/login/login_page.dart';
 import 'package:flutter_hoo/ui/login/register_page.dart';
 import 'package:flutter_hoo/ui/login/welcome_page.dart';
@@ -46,7 +47,7 @@ class _SplashPageState extends State<SplashPage>
   @override
   Widget build(BuildContext context) {
     return new Container(
-      color: Colors.lightBlue[500],
+      color: ThemeUtils.getMainColor(context),
       child: new Center(
         child: new Stack(
           alignment: Alignment.center,
@@ -56,7 +57,7 @@ class _SplashPageState extends State<SplashPage>
               builder: (context, widget) {
                 return Text("Hoo",
                     style: TextStyle(
-                        color: Colors.white,
+                        color: ThemeUtils.getTextMainWhiteColor(context),
                         fontSize: scalaAnimation.value,
                         fontWeight: FontWeight.bold));
               },
@@ -70,7 +71,7 @@ class _SplashPageState extends State<SplashPage>
                   child: CircularProgressIndicator(
                     backgroundColor: Colors.transparent,
                     value: progressAnimation.value,
-                    valueColor: AlwaysStoppedAnimation(Colors.white),
+                    valueColor: AlwaysStoppedAnimation(ThemeUtils.getTextMainWhiteColor(context)),
                   ),
                 );
               },

@@ -32,6 +32,7 @@ class LoadImage extends StatelessWidget {
         width: width,
         height: height,
         fit: fit,
+        format: format,
       );
       return CachedNetworkImage(
         imageUrl: img,
@@ -51,6 +52,7 @@ class LoadImage extends StatelessWidget {
         fit: fit,
         cachedWidth: cachedWidth,
         cachedHeight: cachedHeight,
+        format: format,
       );
     }
   }

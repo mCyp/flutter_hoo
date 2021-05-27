@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hoo/common/constant/baseConstant.dart';
 import 'package:flutter_hoo/common/utils/sp_util.dart';
+import 'package:flutter_hoo/common/utils/theme_utils.dart';
 import 'package:flutter_hoo/db/database.dart';
 import 'package:flutter_hoo/db/fav_shoe.dart';
 import 'package:flutter_hoo/db/shoe.dart';
@@ -123,7 +124,7 @@ class _ShoeDetailPageState extends State<ShoeDetailPage>
                       _shoe != null ? _shoe.name : "--",
                       style: Theme.of(context).textTheme.subtitle1.copyWith(
                             fontSize: 18,
-                            color: Colors.white,
+                            color: ThemeUtils.getTextMainWhiteColor(context)
                           ),
                       textAlign: TextAlign.center,
                     ),
@@ -134,7 +135,7 @@ class _ShoeDetailPageState extends State<ShoeDetailPage>
                       style: Theme.of(context)
                           .textTheme
                           .subtitle2
-                          .copyWith(fontSize: 16, color: Colors.white70),
+                          .copyWith(fontSize: 16, color: ThemeUtils.getTextSecondWhiteColor(context)),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -144,7 +145,7 @@ class _ShoeDetailPageState extends State<ShoeDetailPage>
                       style: Theme.of(context)
                           .textTheme
                           .subtitle2
-                          .copyWith(fontSize: 16, color: Colors.white70),
+                          .copyWith(fontSize: 16, color: ThemeUtils.getTextSecondWhiteColor(context)),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -164,7 +165,7 @@ class _ShoeDetailPageState extends State<ShoeDetailPage>
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1
-                      .copyWith(fontSize: 14, color: Colors.white70),
+                      .copyWith(fontSize: 14, color: ThemeUtils.getTextSecondWhiteColor(context)),
                 ),
               ),
             ),

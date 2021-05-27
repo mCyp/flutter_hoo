@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hoo/common/constant/baseConstant.dart';
+import 'package:flutter_hoo/common/utils/sp_util.dart';
+import 'package:flutter_hoo/common/utils/theme_utils.dart';
 import 'package:flutter_hoo/db/database.dart';
 import 'package:flutter_hoo/db/use.dart';
 import 'package:flutter_hoo/style/theme/strings.dart';
@@ -19,12 +22,20 @@ class LoginPageState extends State<LoginPage> {
   String account = "";
   String pwd = "";
   bool isButtonEnable = false;
+  final TextEditingController accountController = new TextEditingController();
+  final TextEditingController pwdController = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
 
-    isButtonEnable = account.isNotEmpty && pwd.isNotEmpty;
+    String a = SpUtil.getString(BaseConstant.user_account);
+    setState(() {
+      account = a;
+      accountController.text = account;
+      isButtonEnable = account.isNotEmpty && pwd.isNotEmpty;
+    });
+
   }
 
   void _onTextChange() {
@@ -32,13 +43,13 @@ class LoginPageState extends State<LoginPage> {
     if (currentState != isButtonEnable) {
       setState(() {
         isButtonEnable = currentState;
-        print("isEnable: "+ isButtonEnable.toString());
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = context.screenWidth;
     double height = MediaQuery.of(context).size.height -
         56.0 -
         MediaQuery.of(context).padding.top -
@@ -62,7 +73,7 @@ class LoginPageState extends State<LoginPage> {
             child: Column(
               children: [
                 SizedBox(
-                  width: double.infinity,
+                  width: screenWidth,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
                     child: Text(
@@ -80,6 +91,7 @@ class LoginPageState extends State<LoginPage> {
                   child: HooTextField(
                     Icons.face,
                     Strings.login_account_hint,
+                    accountController,
                     (txt) {
                       this.account = txt;
                       _onTextChange();
@@ -91,8 +103,10 @@ class LoginPageState extends State<LoginPage> {
                   child: HooTextField(
                     Icons.lock_open,
                     Strings.login_pwd_hint,
+                    pwdController,
                     (txt) {
                       this.pwd = txt;
+                      print("pwd: $pwd");
                       _onTextChange();
                     },
                     isPassWord: true,
@@ -105,15 +119,20 @@ class LoginPageState extends State<LoginPage> {
                     isButtonEnable,
                     Strings.sign_in_login,
                     () async {
-                      showToast("查询！！！！",textPadding: EdgeInsets.all(10));
                       DBProvider provider = DBProvider.getInstance();
                       User user =
                           await provider.queryUserByNameAndPwd(account, pwd);
                       if (user != null) {
-                        print(user.id);
-                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (ctx) => MainPage()), (Route<dynamic> route) => false);
+                        print("userId: " + user.id.toString());
+                        SpUtil.putInt(BaseConstant.user_id, user.id);
+                        SpUtil.putString(
+                            BaseConstant.user_account, user.name);
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (ctx) => MainPage()),
+                            (Route<dynamic> route) => false);
                       } else {
-                        showToast("用户名或者密码错误！！！！",textPadding: EdgeInsets.all(10));
+                        showToast("用户名或者密码错误！！！！",
+                            textPadding: EdgeInsets.all(10));
                       }
                     },
                   ),

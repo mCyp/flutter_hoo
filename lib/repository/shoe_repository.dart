@@ -21,9 +21,7 @@ class ShoeRepository extends LoadingMoreBase<Shoe>{
     DBProvider provider = DBProvider.getInstance();
     int startPos = (_pageIndex - 1) * 20;
     int endPos = startPos + 20;
-    print("startPos:  " + startPos.toString() + "endPos: " + endPos.toString());
-     List<Shoe> shoes = await provider.queryShoeByPos(startPos,endPos);
-    print("Get shoes " + shoes.length.toString());
+    List<Shoe> shoes = await provider.queryShoeByPos(startPos,endPos);
     if(_pageIndex == 1){
       clear();
     }

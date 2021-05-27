@@ -16,6 +16,9 @@ class CustomColors{
   static const Color text_main = Color(0xE6000000);
   static const Color dark_text_main = Color(0xFFFFFFFF);
 
+  static const Color text_main_white = Color(0xFFFFFFFF);
+  static const Color dark_text_main_white = Color(0xE6000000);
+
   static const Color text_gray_300 = Color(0x52000000);
   static const Color dark_text_gray_300 = Color(0x7AFFFFFF);
 
@@ -37,8 +40,8 @@ class CustomColors{
   static const Color unselected_item_color = Color(0xffbfbfbf);
   static const Color dark_unselected_item_color = Color(0xFF4D4D4D);
 
-  static const Color bg_gray_ = Color(0xFFFAFAFA);
-  static const Color dark_bg_gray_ = Color(0xFF242526);
+  static const Color bg_gray_color = Color(0xFFFAFAFA);
+  static const Color dark_bg_gray_color = Color(0xFF242526);
 
 
 }

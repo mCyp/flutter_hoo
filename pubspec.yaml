@@ -70,6 +70,7 @@ flutter:
     - assets/images/welcome_bg.png
     - assets/images/default.png
     - assets/images/empty_bg.jpg
+    - assets/images/default_header.jpeg
     - assets/json/shoes.json
     - assets/lottie/favour.json
     - assets/lottie/full_screen_loading.json

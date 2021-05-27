@@ -18,6 +18,9 @@ class ThemeProvider extends ChangeNotifier{
 
   void setTheme(ThemeMode themeMode){
     SpUtil.putString(BaseConstant.theme, themeMode.value);
+    if(themeMode.value != "System"){
+      SpUtil.putString(BaseConstant.theme_un_follow_system, themeMode.value);
+    }
     notifyListeners();
   }
 
@@ -30,6 +33,16 @@ class ThemeProvider extends ChangeNotifier{
         return ThemeMode.light;
       default:
         return ThemeMode.system;
+    }
+  }
+
+  ThemeMode getLastUnFollowSystemModel(){
+    final String theme = SpUtil.getString(BaseConstant.theme_un_follow_system);
+    switch(theme){
+      case "Dark":
+        return ThemeMode.dark;
+      default:
+        return ThemeMode.light;
     }
   }
 }

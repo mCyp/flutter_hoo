@@ -6,6 +6,7 @@ import 'package:flutter_hoo/style/theme/strings.dart';
 import 'package:flutter_hoo/ui/main/main_page.dart';
 import 'package:flutter_hoo/widget/my_button.dart';
 import 'package:flutter_hoo/widget/my_textfield.dart';
+import 'package:flutter_hoo/common/utils/theme_utils.dart';
 import 'package:oktoast/oktoast.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -20,6 +21,9 @@ class RegisterPageState extends State<RegisterPage> {
   String pwd = "";
   String email = "";
   bool isButtonEnable = false;
+  final TextEditingController accountController = new TextEditingController();
+  final TextEditingController pwdController = new TextEditingController();
+  final TextEditingController emailController = new TextEditingController();
 
   bool isEmailError = false;
 
@@ -88,6 +92,7 @@ class RegisterPageState extends State<RegisterPage> {
                     child: HooTextField(
                       Icons.email,
                       Strings.email_address,
+                      emailController,
                       (txt) {
                         this.email = txt;
                         _onTextChange();
@@ -101,6 +106,7 @@ class RegisterPageState extends State<RegisterPage> {
                     child: HooTextField(
                       Icons.face,
                       Strings.login_account_hint,
+                      accountController,
                       (txt) {
                         this.account = txt;
                         _onTextChange();
@@ -112,6 +118,7 @@ class RegisterPageState extends State<RegisterPage> {
                     child: HooTextField(
                       Icons.lock_open,
                       Strings.login_pwd_hint,
+                      pwdController,
                       (txt) {
                         this.pwd = txt;
                         _onTextChange();

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hoo/common/utils/theme_utils.dart';
 import 'package:flutter_hoo/db/fav_shoe.dart';
 import 'package:flutter_hoo/repository/fav_shoe_repository.dart';
 import 'package:flutter_hoo/ui/main/shoe/fav_shoe_item.dart';
@@ -32,7 +33,7 @@ class _FavShoePageState extends State<FavShoePage>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey[200],
+      color: ThemeUtils.getBgGrayColor(context),
       child: RefreshIndicator(
         child: LoadingMoreList<FavShoe>(ListConfig<FavShoe>(
             itemBuilder: (context, item, pos) => FavShoeItem(item),

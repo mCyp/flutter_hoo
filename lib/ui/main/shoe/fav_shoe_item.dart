@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hoo/common/utils/theme_utils.dart';
 import 'package:flutter_hoo/db/fav_shoe.dart';
 import 'package:flutter_hoo/db/shoe.dart';
 import 'package:flutter_hoo/ui/detail/shoe_detail_page.dart';
@@ -66,13 +67,7 @@ class FavShoeItem extends StatelessWidget {
                       child: DecoratedBox(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(4)),
-                          /*boxShadow: [
-                            BoxShadow(
-                                color: Colors.black54,
-                                offset: Offset(2.0, 2.0),
-                                blurRadius: 4.0)
-                          ],*/
-                          border: new Border.all(width: 1, color: Colors.grey[200]),
+                          border: new Border.all(width: 1, color: ThemeUtils.getOutProviderColor(context)),
                           shape: BoxShape.rectangle,
                         ),
                         child: Padding(

@@ -64,34 +64,6 @@ class _RefreshListViewState extends State<RefreshListView> {
           itemBuilder: (BuildContext context, int index) {
             return widget.itemBuilder(context, index);
           }),
-      /*child: widget.itemCount == 0
-          ? StateLayout(
-        type: widget.stateType,
-        url: "assets/images/empty_bg.jpg",
-        hintText: "暂时没有鞋子哦",
-      ) : Stack(
-        alignment: Alignment.center,
-        fit: StackFit.expand,
-        children: [
-          GridView.builder(
-              itemCount: widget.itemCount,
-              padding: widget.padding,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 1,
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 8),
-              itemBuilder: (BuildContext context, int index) {
-                return widget.itemBuilder(context, index);
-              }),
-          Positioned(
-            child: Container(
-              child: isShow ? MoreWidget(widget.hasMore) : Text("hah"),
-            ),
-            bottom: 12,
-          )
-        ],
-      )*/
     );
     return SafeArea(
       child: NotificationListener(

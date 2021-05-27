@@ -38,11 +38,8 @@ SystemUiOverlayStyle setNavigationBarTextColor(bool light){
 }
 
 class MyApp extends StatelessWidget {
-
   final ThemeData theme;
-
   MyApp({this.theme});
-
 
   @override
   Widget build(BuildContext context) {
@@ -55,19 +52,27 @@ class MyApp extends StatelessWidget {
         create: (_) => ThemeProvider(),
         child: Consumer<ThemeProvider>(
           builder: (_,provider,__){
-            return MaterialApp(
-              title: 'Hoo',
-              theme: theme ?? ThemeCenter.getCenterTheme(),
-              darkTheme: ThemeCenter.getCenterTheme(isDark: true),
-              themeMode: provider.getThemeMode(),
-              home: NewHome(),
-            );
+            if(provider.getThemeMode() == ThemeMode.system){
+              return MaterialApp(
+                title: 'Hoo',
+                theme: theme ?? ThemeCenter.getCenterTheme(),
+                darkTheme: ThemeCenter.getCenterTheme(isDark: true),
+                themeMode: provider.getThemeMode(),
+                home: NewHome(),
+              );
+            }else {
+              return MaterialApp(
+                title: 'Hoo',
+                theme: provider.getThemeMode() == ThemeMode.dark ? ThemeCenter.getCenterTheme(isDark: true) : ThemeCenter.getCenterTheme(isDark: false),
+                themeMode: provider.getThemeMode(),
+                home: NewHome(),
+              );
+            }
           },
         )
       ),
     );
   }
-
 }
 
 class NewHome extends StatelessWidget{

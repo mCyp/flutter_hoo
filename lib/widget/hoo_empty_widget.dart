@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hoo/common/utils/theme_utils.dart';
 
 class HooEmptyWidget extends StatelessWidget {
   final String text;
-
   const HooEmptyWidget({Key key, this.text = "感觉产生点数据吧！"}) : super(key: key);
 
   @override
@@ -11,7 +11,7 @@ class HooEmptyWidget extends StatelessWidget {
     return Container(
       height: double.infinity,
       width: double.infinity,
-      color: Colors.white,
+      color: ThemeUtils.getBgColor(context),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
