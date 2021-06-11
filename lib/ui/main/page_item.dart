@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
 class PageItem extends StatelessWidget {
-
   final String title;
   final Color color;
-
 
   PageItem(this.title, this.color);
 

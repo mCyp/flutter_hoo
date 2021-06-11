@@ -13,7 +13,7 @@ class ShoePage extends StatefulWidget {
   _ShoePageState createState() => _ShoePageState();
 }
 
-class _ShoePageState extends State<ShoePage> with TickerProviderStateMixin{
+class _ShoePageState extends State<ShoePage> with TickerProviderStateMixin {
   ShoeRepository shoeRepository;
   StateType type = StateType.loading;
 

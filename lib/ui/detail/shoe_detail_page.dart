@@ -72,103 +72,21 @@ class _ShoeDetailPageState extends State<ShoeDetailPage>
               height: screenHeight * 0.5 + 20,
               child: Hero(
                   tag: _shoe.imageUrl,
-                  child: LoadImage(_shoe == null || _shoe.imageUrl == null
-                      ? ""
-                      : _shoe.imageUrl)),
+                  child: LoadImage(_shoe == null || _shoe.imageUrl == null ? "" : _shoe.imageUrl)),
             ),
           ),
           Positioned(
             top: 32,
             left: 16,
-            child: _buildVisible(
-                SizedBox(
-                  width: 52,
-                  height: 52,
-                  child: Material(
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          _showBackAndFavour = false;
-                        });
-                        Navigator.of(context).pop();
-                        },
-                      child: Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Icon(
-                          Icons.arrow_back,
-                          size: 32,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                _showBackAndFavour),
+            child: _buildBackIcon(),
           ),
           Positioned(
             top: screenHeight * 0.5,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20)),
-              ),
-              width: screenWidth,
-              height: screenHeight * 0.2,
-              child: Flex(
-                direction: Axis.horizontal,
-                children: [
-                  Expanded(
-                    child: Text(
-                      _shoe != null ? _shoe.name : "--",
-                      style: Theme.of(context).textTheme.subtitle1.copyWith(
-                            fontSize: 18,
-                            color: ThemeUtils.getTextMainWhiteColor(context)
-                          ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      _shoe != null ? _shoe.brand : "--",
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle2
-                          .copyWith(fontSize: 16, color: ThemeUtils.getTextSecondWhiteColor(context)),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      _shoe != null ? _shoe.price.toString() : "--",
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle2
-                          .copyWith(fontSize: 16, color: ThemeUtils.getTextSecondWhiteColor(context)),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            child: _buildNameBrandPriceText(screenWidth, screenHeight)
           ),
           Positioned(
             top: screenHeight * 0.7,
-            child: SizedBox(
-              width: screenWidth,
-              height: screenHeight * 0.2,
-              child: Padding(
-                padding: EdgeInsets.all(20),
-                child: Text(
-                  _shoe != null ? _shoe.description.toString() : " ",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(fontSize: 14, color: ThemeUtils.getTextSecondWhiteColor(context)),
-                ),
-              ),
-            ),
+            child: _buildDescText(screenWidth, screenHeight)
           ),
           Positioned(
             top: screenHeight * 0.5 - 26,
@@ -178,18 +96,86 @@ class _ShoeDetailPageState extends State<ShoeDetailPage>
           Positioned(
             top: screenHeight * 0.5 - 26 - 171,
             right: 24,
-            child: Lottie.asset(
-              'assets/lottie/favour.json',
-              controller: _animationController,
-              width: 72,
-              height: 171,
-            ),
+            child: _buildLottieAnimation(),
           )
         ],
       ),
     );
   }
 
+  Widget _buildBackIcon(){
+    return _buildVisible(
+        Material(
+          child: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              size: 32,
+              color: Theme.of(context).primaryColor,
+            ),
+            padding: EdgeInsets.all(10),
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onPressed: (){
+              setState(() {
+                _showBackAndFavour = false;
+              });
+              Navigator.of(context).pop();
+            },
+          ),
+        ),
+        _showBackAndFavour);
+  }
+
+  // 名称 / 品牌 / 价格介绍
+  Widget _buildNameBrandPriceText(double screenWidth, double screenHeight){
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20)),
+      ),
+      width: screenWidth,
+      height: screenHeight * 0.2,
+      child: Flex(
+        direction: Axis.horizontal,
+        children: [
+          Expanded(
+            child: Text(
+              _shoe != null ? _shoe.name : "--",
+              style: Theme.of(context).textTheme.subtitle1.copyWith(
+                  fontSize: 18,
+                  color: ThemeUtils.getTextMainWhiteColor(context)
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              _shoe != null ? _shoe.brand : "--",
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle2
+                  .copyWith(fontSize: 16, color: ThemeUtils.getTextSecondWhiteColor(context)),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              _shoe != null ? _shoe.price.toString() : "--",
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle2
+                  .copyWith(fontSize: 16, color: ThemeUtils.getTextSecondWhiteColor(context)),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 点赞按钮
   Widget _buildFavButton() {
     return SizedBox(
       width: 52,
@@ -197,7 +183,7 @@ class _ShoeDetailPageState extends State<ShoeDetailPage>
       child: AnimatedBuilder(
         animation: _animationController,
         builder: (ctx, child) {
-          return FloatingAnimationButton(
+          return _FloatingAnimationButton(
             _animationController,
             () {
               _onFavouriteClick();
@@ -205,6 +191,32 @@ class _ShoeDetailPageState extends State<ShoeDetailPage>
           );
         },
       ),
+    );
+  }
+
+  Widget _buildDescText(double screenWidth, double screenHeight){
+    return SizedBox(
+      width: screenWidth,
+      height: screenHeight * 0.2,
+      child: Padding(
+        padding: EdgeInsets.all(20),
+        child: Text(
+          _shoe != null ? _shoe.description.toString() : " ",
+          style: Theme.of(context)
+              .textTheme
+              .bodyText1
+              .copyWith(fontSize: 14, color: ThemeUtils.getTextSecondWhiteColor(context)),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLottieAnimation(){
+    return Lottie.asset(
+      'assets/lottie/favour.json',
+      controller: _animationController,
+      width: 72,
+      height: 171,
     );
   }
 
@@ -240,25 +252,20 @@ class _ShoeDetailPageState extends State<ShoeDetailPage>
   }
 }
 
-class FloatingAnimationButton extends StatelessWidget {
+// ignore: must_be_immutable
+class _FloatingAnimationButton extends StatelessWidget {
   final Animation<double> controller;
   final VoidCallback callback;
 
   Animation<Color> colorAnimation;
   Animation<double> rotationAnimation;
 
-  // Animation<double> sizeAnimaion;
-
-  FloatingAnimationButton(this.controller, this.callback, {Key key})
+  _FloatingAnimationButton(this.controller, this.callback, {Key key})
       : super(key: key) {
     colorAnimation = ColorTween(begin: Colors.pink[500], end: Colors.grey[500])
         .animate(CurvedAnimation(parent: controller, curve: Curves.easeIn));
-
     rotationAnimation = Tween<double>(begin: 0.0, end: 2 * math.pi)
         .animate(CurvedAnimation(parent: controller, curve: Curves.ease));
-
-    /*firstSizeAnimation = Tween<double>(begin: 0.0, end: 2 * math.pi)
-        .animate(CurvedAnimation(parent: controller, curve: Interval(0.0, 0.5, curve: Curves.ease)));*/
   }
 
   Widget _buildAnimation(BuildContext context, Widget child) {

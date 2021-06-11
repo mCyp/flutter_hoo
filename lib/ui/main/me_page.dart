@@ -44,7 +44,8 @@ class _MePageState extends State<MePage> {
               width: screenWidth,
               height: screenHeight * 0.3,
               child: DecoratedBox(
-                decoration: BoxDecoration(color: ThemeUtils.getMainColor(context)),
+                decoration:
+                    BoxDecoration(color: ThemeUtils.getMainColor(context)),
               ),
             ),
           ),
@@ -75,10 +76,8 @@ class _MePageState extends State<MePage> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   _user == null ? "Enjoy" : _user.name,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4
-                      .copyWith(color: ThemeUtils.getTextMainWhiteColor(context)),
+                  style: Theme.of(context).textTheme.headline4.copyWith(
+                      color: ThemeUtils.getTextMainWhiteColor(context)),
                 ),
               ),
             ),
@@ -111,9 +110,65 @@ class _MePageState extends State<MePage> {
     );
   }
 
+  Widget _buildListCard(double screenWidth) {
+    return Container(
+      width: screenWidth - 16 * 2,
+      margin: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: ThemeUtils.getTextMainWhiteColor(context),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        children: [
+          _buildListItem(
+              screenWidth,
+              Icons.accessibility,
+              "数据存储",
+              Icon(
+                Icons.chevron_right,
+                size: 24,
+                color: ThemeUtils.getTextGrayColor(context),
+              )),
+          _buildListItem(screenWidth, Icons.wb_sunny_sharp, "黑夜模式跟随系统",
+              _buildThemeSwitch()),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildListItem(
+      double screenWidth, IconData iconData, String text, Widget lastWidget) {
+    return Container(
+      width: screenWidth,
+      height: 56,
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            iconData,
+            size: 24,
+            color: ThemeUtils.getMainTextColor(context),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: Text(
+              text,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1
+                  .copyWith(color: ThemeUtils.getMainTextColor(context)),
+            ),
+          ),
+          Spacer(),
+          lastWidget,
+        ],
+      ),
+    );
+  }
+
   void queryUser() async {
     _userId = SpUtil.getInt(BaseConstant.user_id);
-    print("userId: " + _userId.toString());
     if (_userId > 0) {
       DBProvider provider = DBProvider.getInstance();
       User user = await provider.queryUserByUserId(_userId);
@@ -127,95 +182,17 @@ class _MePageState extends State<MePage> {
   Widget _buildThemeSwitch() {
     return Consumer<ThemeProvider>(builder: (ctx, provider, child) {
       return Switch(
-          value: _isFollowSystem,
-          onChanged: (active) {
-            _onThemeChange(active, provider);
-          });
+        value: _isFollowSystem,
+        onChanged: (active) => _onThemeChange(active, provider),
+      );
     });
   }
 
   void _onThemeChange(bool active, ThemeProvider provider) {
-    if (active) {
-      provider.setTheme(ThemeMode.system);
-    } else {
-      provider.setTheme(provider.getLastUnFollowSystemModel());
-    }
-    print("MePage: it is clicked");
+    provider.setTheme(
+        active ? ThemeMode.system : provider.getLastUnFollowSystemModel());
     setState(() {
       _isFollowSystem = active;
     });
   }
-
-  Widget _buildListCard(double screenWidth){
-    return Container(
-      width: screenWidth - 16 * 2,
-      margin: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: ThemeUtils.getTextMainWhiteColor(context),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        children: [
-          Container(
-            width: screenWidth,
-            height: 56,
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: InkWell(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.accessibility,
-                    size: 24,
-                    color: ThemeUtils.getMainTextColor(context),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: Text(
-                      "数据存储",
-                      style: Theme.of(context).textTheme.bodyText1.copyWith(
-                          color: ThemeUtils.getMainTextColor(context)),
-                    ),
-                  ),
-                  Spacer(),
-                  Icon(
-                    Icons.chevron_right,
-                    size: 24,
-                    color: ThemeUtils.getTextGrayColor(context),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Container(
-            width: screenWidth,
-            height: 56,
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.wb_sunny_sharp,
-                  size: 24,
-                  color: ThemeUtils.getMainTextColor(context),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: Text(
-                    "黑夜模式跟随系统",
-                    style: Theme.of(context).textTheme.bodyText1.copyWith(
-                        color: ThemeUtils.getMainTextColor(context)),
-                  ),
-                ),
-                Spacer(),
-                _buildThemeSwitch(),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-
 }

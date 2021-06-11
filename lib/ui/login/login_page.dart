@@ -19,8 +19,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  String account = "";
-  String pwd = "";
   bool isButtonEnable = false;
   final TextEditingController accountController = new TextEditingController();
   final TextEditingController pwdController = new TextEditingController();
@@ -30,16 +28,15 @@ class LoginPageState extends State<LoginPage> {
     super.initState();
 
     String a = SpUtil.getString(BaseConstant.user_account);
-    setState(() {
-      account = a;
-      accountController.text = account;
-      isButtonEnable = account.isNotEmpty && pwd.isNotEmpty;
-    });
-
+    if(a.isNotEmpty){
+      accountController.text = a;
+    }
   }
 
   void _onTextChange() {
-    bool currentState = account.isNotEmpty && pwd.isNotEmpty;
+    String a = accountController.text.toString();
+    String p = pwdController.text.toString();
+    bool currentState = a.isNotEmpty && p.isNotEmpty;
     if (currentState != isButtonEnable) {
       setState(() {
         isButtonEnable = currentState;
@@ -47,13 +44,30 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
+  void _onLoginClicked() async {
+    DBProvider provider = DBProvider.getInstance();
+    String pwd = pwdController.text.toString();
+    String account = accountController.text.toString();
+    User user =
+    await provider.queryUserByNameAndPwd(account, pwd);
+    if (user != null) {
+      print("userId: " + user.id.toString());
+      SpUtil.putInt(BaseConstant.user_id, user.id);
+      SpUtil.putString(
+          BaseConstant.user_account, user.name);
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (ctx) => MainPage()),
+              (Route<dynamic> route) => false);
+    } else {
+      showToast("用户名或者密码错误！！！！",
+          textPadding: EdgeInsets.all(10));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = context.screenWidth;
-    double height = MediaQuery.of(context).size.height -
-        56.0 -
-        MediaQuery.of(context).padding.top -
-        50;
+    double height = context.screenHeight - 56.0 - MediaQuery.of(context).padding.top - 50;
     return OKToast(
       child: Scaffold(
         appBar: AppBar(
@@ -81,7 +95,7 @@ class LoginPageState extends State<LoginPage> {
                       style: Theme.of(context)
                           .textTheme
                           .headline4
-                          .copyWith(fontWeight: FontWeight.bold),
+                          .copyWith(fontWeight: FontWeight.bold, color: ThemeUtils.getMainTextColor(context)),
                       textAlign: TextAlign.start,
                     ),
                   ),
@@ -92,10 +106,7 @@ class LoginPageState extends State<LoginPage> {
                     Icons.face,
                     Strings.login_account_hint,
                     accountController,
-                    (txt) {
-                      this.account = txt;
-                      _onTextChange();
-                    },
+                    (txt) => _onTextChange(),
                   ),
                 ),
                 Padding(
@@ -104,11 +115,7 @@ class LoginPageState extends State<LoginPage> {
                     Icons.lock_open,
                     Strings.login_pwd_hint,
                     pwdController,
-                    (txt) {
-                      this.pwd = txt;
-                      print("pwd: $pwd");
-                      _onTextChange();
-                    },
+                    (txt) => _onTextChange(),
                     isPassWord: true,
                   ),
                 ),
@@ -118,23 +125,7 @@ class LoginPageState extends State<LoginPage> {
                   child: HooButton(
                     isButtonEnable,
                     Strings.sign_in_login,
-                    () async {
-                      DBProvider provider = DBProvider.getInstance();
-                      User user =
-                          await provider.queryUserByNameAndPwd(account, pwd);
-                      if (user != null) {
-                        print("userId: " + user.id.toString());
-                        SpUtil.putInt(BaseConstant.user_id, user.id);
-                        SpUtil.putString(
-                            BaseConstant.user_account, user.name);
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (ctx) => MainPage()),
-                            (Route<dynamic> route) => false);
-                      } else {
-                        showToast("用户名或者密码错误！！！！",
-                            textPadding: EdgeInsets.all(10));
-                      }
-                    },
+                    _onLoginClicked,
                   ),
                 ),
               ],

@@ -28,7 +28,6 @@ class FavShoeItem extends StatelessWidget {
             child: Ink(
               child: InkWell(
                 onTap: () {
-                  print("shoeId: " + _shoe.id.toString());
                   Navigator.of(context)
                       .push(PageRouteBuilder(pageBuilder: (ctx, start, end) {
                     return new FadeTransition(
